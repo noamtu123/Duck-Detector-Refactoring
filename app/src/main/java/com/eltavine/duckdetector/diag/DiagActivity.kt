@@ -71,7 +71,22 @@ class DiagActivity : Activity() {
             threadsPerChild = threads,
             goldOnly = gold,
             spawnIntervalMs = intervalMs,
+            onComplete = {
+                /* Release the display and get out of the user's way. Without
+                 * this the run leaves the phone parked on a diagnostic screen
+                 * with the backlight pinned on indefinitely. */
+                runOnUiThread {
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                    Log.i(TAG, "storm complete; finishing DiagActivity")
+                    finish()
+                }
+            },
         )
+    }
+
+    override fun onDestroy() {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        super.onDestroy()
     }
 
     companion object {

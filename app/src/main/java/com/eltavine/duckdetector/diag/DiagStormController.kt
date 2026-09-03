@@ -53,6 +53,7 @@ object DiagStormController {
         threadsPerChild: Int,
         goldOnly: Boolean,
         spawnIntervalMs: Long,
+        onComplete: () -> Unit = {},
     ) {
         if (running) {
             Log.i(TAG, "storm already running; ignoring start")
@@ -129,6 +130,10 @@ object DiagStormController {
                 Log.i(TAG, "STORM SURVIVED total_spawned=$spawned elapsed=${elapsed}s")
                 running = false
                 executor.shutdownNow()
+                /* Always hand control back, including on the abort path: the
+                 * host activity holds a screen wake lock for the duration and
+                 * must not keep the display pinned awake after the run. */
+                runCatching { onComplete() }
             }
         }, "duckdiag-storm").apply {
             isDaemon = false
