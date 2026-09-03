@@ -57,16 +57,18 @@ class SelinuxContextValidityCarrierService : Service() {
     override fun onBind(intent: Intent?): IBinder = binder
 
     private fun buildSnapshotPayload(): String {
-        return runCatching {
-            resolveCarrierPayload(
-                consumePreloadedRawData = SelinuxContextValidityBridge::consumePreloadedRawDataForCarrier,
-            )
-        }.getOrElse { throwable ->
-            carrierFailurePayload(
-                throwable.message ?: "SELinux carrier probe failed.",
-                "SELinux carrier probe crashed before returning the preloaded payload.",
-            )
-        }
+        /*
+         * TEST BRANCH test/zygote-noop -- do NO work.
+         *
+         * The carrier still spawns through the app zygote, is bound, and answers
+         * the binder transaction; only the native SELinux collection is removed.
+         * If the device still wedges, the app-zygote spawn itself is the trigger
+         * and collect_dirty_policy_snapshot() is irrelevant.
+         */
+        return carrierFailurePayload(
+            "diag: carrier stubbed (test/zygote-noop)",
+            "diag: carrier stubbed (test/zygote-noop)",
+        )
     }
 
     companion object {
