@@ -86,6 +86,23 @@ limitations under the License.
             android:exported="false"
             android:isolatedProcess="true"
             tools:targetApi="oreo" />
+
+        <!--
+          DIAGNOSTIC ONLY. Address-space churn reproducer, driven from adb; not
+          reachable from any scan. Isolated so the payload runs in the same
+          sandboxed app domain as the processes the stall is observed in.
+        -->
+        <service
+            android:name=".diag.DiagChurnService"
+            android:exported="false"
+            android:isolatedProcess="true" />
+        <activity
+            android:name=".diag.DiagActivity"
+            android:exported="true"
+            android:label="DuckDiag Churn" />
+        <receiver
+            android:name=".diag.DiagStormReceiver"
+            android:exported="true" />
     </application>
 
 </manifest>

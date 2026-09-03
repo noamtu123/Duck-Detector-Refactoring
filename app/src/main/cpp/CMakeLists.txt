@@ -146,6 +146,10 @@ set(VIRTUALIZATION_SOURCES
     virtualization/native_bridge.cpp
 )
 
+set(DUCKDIAG_SOURCES
+    duckdiag/churn.cpp
+)
+
 set(TEE_ASM_SOURCES)
 set(VIRTUALIZATION_ASM_SOURCES)
 if(ANDROID_ABI STREQUAL "arm64-v8a")
@@ -180,6 +184,7 @@ add_library(duckdetector SHARED
     ${LSPOSED_SOURCES}
     ${ZYGISK_SOURCES}
     ${VIRTUALIZATION_SOURCES}
+    ${DUCKDIAG_SOURCES}
     ${TEE_ASM_SOURCES}
     ${VIRTUALIZATION_ASM_SOURCES}
 )
