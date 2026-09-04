@@ -19,6 +19,7 @@ package com.eltavine.duckdetector.ui.shell
 import com.eltavine.duckdetector.core.notifications.ScanNotificationPermissionState
 import com.eltavine.duckdetector.core.notifications.preferences.ScanNotificationPrefs
 import com.eltavine.duckdetector.core.packagevisibility.InstalledPackageVisibility
+import com.eltavine.duckdetector.diag.DiagAutopilot
 import com.eltavine.duckdetector.features.tee.data.preferences.TeeNetworkPrefs
 
 enum class AppDestination {
@@ -43,6 +44,8 @@ fun resolveStartupGateState(
     return when {
         teePrefs == null || notificationPrefs == null || !packageVisibilityLoaded ->
             StartupGateState.LOADING
+
+        DiagAutopilot.ENABLED -> StartupGateState.READY
 
         !notificationPrefs.notificationsPrompted &&
                 !notificationPermissionState.notificationsGranted ->

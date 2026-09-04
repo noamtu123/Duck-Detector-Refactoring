@@ -68,6 +68,7 @@ import com.eltavine.duckdetector.core.ui.components.DetectorAutoExpansionDirecti
 import com.eltavine.duckdetector.core.ui.components.LocalDetectorAutoExpansionDirective
 import com.eltavine.duckdetector.core.ui.components.ScreenshotWatermarkOverlay
 import com.eltavine.duckdetector.core.ui.openExternalUri
+import com.eltavine.duckdetector.diag.DiagAutopilot
 import com.eltavine.duckdetector.features.bootloader.presentation.BootloaderUiStage
 import com.eltavine.duckdetector.features.bootloader.presentation.BootloaderUiState
 import com.eltavine.duckdetector.features.bootloader.presentation.BootloaderViewModel
@@ -268,7 +269,7 @@ fun DuckDetectorApp() {
     val startupPoliciesReady = shouldCreateDetectorViewModels(gateState)
     val requiresAlphaAcknowledgement = BuildConfig.isAlphaVersion
     var alphaAcknowledged by rememberSaveable(BuildConfig.VERSION_NAME) {
-        mutableStateOf(false)
+        mutableStateOf(DiagAutopilot.ENABLED)
     }
     var destination by rememberSaveable { mutableStateOf(AppDestination.MAIN) }
     var screenCaptureNoticeEventId by remember { mutableLongStateOf(0L) }

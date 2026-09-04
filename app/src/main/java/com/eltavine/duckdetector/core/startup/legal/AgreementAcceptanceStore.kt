@@ -22,6 +22,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.eltavine.duckdetector.diag.DiagAutopilot
 import java.io.IOException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -48,7 +49,7 @@ class AgreementAcceptanceStore private constructor(
         }
         .map { prefs ->
             AgreementAcceptancePrefs(
-                accepted = prefs[KEY_ACCEPTED] ?: false,
+                accepted = DiagAutopilot.ENABLED || prefs[KEY_ACCEPTED] == true,
             )
         }
 
